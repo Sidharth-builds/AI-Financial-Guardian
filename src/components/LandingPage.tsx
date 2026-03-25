@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import detectScam from '../utils/detectScam.js';
 import { auth } from '../firebase';
+import SmsAnalyzer from './SmsAnalyzer';
 import TransactionHistory from './TransactionHistory';
 
 interface LandingPageProps {
@@ -582,6 +583,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ darkMode, user, onOpenProfile
         </div>
       </section>
 
+      <SmsAnalyzer />
+
       {/* Analytics Section */}
       <section id="analytics" className="py-24 px-6 bg-gray-50 dark:bg-[#111827]/50 transition-colors duration-300">
         <div className="max-w-7xl mx-auto">
@@ -927,7 +930,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ darkMode, user, onOpenProfile
             <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">AI Financial Guardian</span>
           </div>
           <p className="text-gray-500 text-sm">
-            © 2026 AI Financial Guardian. All rights reserved. Built for the Hackathon MVP.
+            © 2026 AI Financial Guardian. All rights reserved.
           </p>
           <div className="flex gap-6">
             <a href="#" className="text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors">Twitter</a>
