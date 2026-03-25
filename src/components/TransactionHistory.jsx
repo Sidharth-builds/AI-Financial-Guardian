@@ -5,11 +5,20 @@ import { db } from "../firebase";
 
 const TransactionHistory = ({ user }) => {
   const [transactions, setTransactions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      setTransactions([]);
+      setIsLoading(false);
+      return;
+    }
 
     const fetchTransactions = async () => {
+      setIsLoading(true);
+      setErrorMessage("");
+
       try {
         const q = query(
           collection(db, "transactions"),
@@ -26,6 +35,9 @@ const TransactionHistory = ({ user }) => {
         setTransactions(data);
       } catch (error) {
         console.error("Error fetching transactions:", error);
+        setErrorMessage("Unable to load transaction history right now.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -41,7 +53,19 @@ const TransactionHistory = ({ user }) => {
             <p className="text-sm text-gray-500 dark:text-gray-400">Recent payments and their scam-risk evaluation.</p>
           </div>
 
-          {transactions.length === 0 ? (
+          {!user ? (
+            <div className="rounded-2xl border border-dashed border-gray-300 dark:border-gray-700 px-6 py-10 text-center text-gray-400">
+              Sign in to view your transaction history
+            </div>
+          ) : isLoading ? (
+            <div className="rounded-2xl border border-dashed border-gray-300 dark:border-gray-700 px-6 py-10 text-center text-gray-400">
+              Loading transactions...
+            </div>
+          ) : errorMessage ? (
+            <div className="rounded-2xl border border-red-200 bg-red-50 px-6 py-10 text-center text-red-500 dark:border-red-900/50 dark:bg-red-950/20 dark:text-red-400">
+              {errorMessage}
+            </div>
+          ) : transactions.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-gray-300 dark:border-gray-700 px-6 py-10 text-center text-gray-400">
               No transactions yet
             </div>

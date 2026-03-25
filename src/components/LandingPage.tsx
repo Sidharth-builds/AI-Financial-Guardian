@@ -50,6 +50,7 @@ const recentTransactions = [
 
 const LandingPage: React.FC<LandingPageProps> = ({ darkMode, user, onOpenProfile, onOpenSettings }) => {
   const navigate = useNavigate();
+  const activeUser = user ?? auth.currentUser;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>('');
@@ -918,7 +919,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ darkMode, user, onOpenProfile
         </section>
       )}
 
-      {user && <TransactionHistory user={user} />}
 
       {/* Footer */}
       <footer className="py-12 px-6 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-[#0B0F14] transition-colors duration-300">
